@@ -1,0 +1,124 @@
+timestamp,source,event_type,description,confidence
+2022-05-07 06:24:50,File System,File Modified,Modified: NetHood,High
+2022-05-07 06:24:50,File System,File Modified,Modified: PrintHood,High
+2022-05-07 06:24:50,File System,File Modified,Modified: Templates,High
+2025-01-25 15:22:47,File System,File Created,Created: OneDrive,High
+2025-01-25 15:33:02,File System,File Created,Created: IntelGraphicsProfiles,High
+2025-01-25 20:20:13,File System,File Created,Created: Cookies,High
+2025-01-25 20:20:13,File System,File Created,Created: Desktop,High
+2025-01-25 20:20:13,File System,File Created,Created: Documents,High
+2025-01-25 20:20:13,File System,File Created,Created: Downloads,High
+2025-01-25 20:20:13,File System,File Created,Created: Favorites,High
+2025-01-25 20:20:13,File System,File Created,Created: Links,High
+2025-01-25 20:20:13,File System,File Created,Created: Music,High
+2025-01-25 20:20:13,File System,File Created,Created: My Documents,High
+2025-01-25 20:20:13,File System,File Created,Created: Pictures,High
+2025-01-25 20:20:13,File System,File Created,Created: Recent,High
+2025-01-25 20:20:13,File System,File Created,Created: Saved Games,High
+2025-01-25 20:20:13,File System,File Created,Created: SendTo,High
+2025-01-25 20:20:13,File System,File Created,Created: Videos,High
+2025-01-25 20:20:19,File System,File Modified,Modified: 3D Objects,High
+2025-01-25 20:20:19,File System,File Created,Created: 3D Objects,High
+2025-01-25 20:20:19,File System,File Created,Created: Contacts,High
+2025-01-25 20:20:19,File System,File Created,Created: Searches,High
+2025-01-29 10:24:06,File System,File Modified,Modified: IntelGraphicsProfiles,High
+2025-02-03 15:55:36,File System,File Created,Created: NetHood,High
+2025-02-03 15:55:36,File System,File Created,Created: NTUSER.DAT,High
+2025-02-03 15:55:36,File System,File Modified,Modified: ntuser.dat.LOG1,High
+2025-02-03 15:55:36,File System,File Accessed,Accessed: ntuser.dat.LOG1,High
+2025-02-03 15:55:36,File System,File Created,Created: ntuser.dat.LOG1,High
+2025-02-03 15:55:36,File System,File Modified,Modified: ntuser.dat.LOG2,High
+2025-02-03 15:55:36,File System,File Accessed,Accessed: ntuser.dat.LOG2,High
+2025-02-03 15:55:36,File System,File Created,Created: ntuser.dat.LOG2,High
+2025-02-03 15:55:36,File System,File Created,Created: NTUSER.DAT{a2332f18-cdbf-11ec-8680-002248483d79}.TM.blf,High
+2025-02-03 15:55:36,File System,File Created,Created: NTUSER.DAT{a2332f18-cdbf-11ec-8680-002248483d79}.TMContainer00000000000000000001.regtrans-ms,High
+2025-02-03 15:55:36,File System,File Modified,Modified: NTUSER.DAT{a2332f18-cdbf-11ec-8680-002248483d79}.TMContainer00000000000000000002.regtrans-ms,High
+2025-02-03 15:55:36,File System,File Accessed,Accessed: NTUSER.DAT{a2332f18-cdbf-11ec-8680-002248483d79}.TMContainer00000000000000000002.regtrans-ms,High
+2025-02-03 15:55:36,File System,File Created,Created: NTUSER.DAT{a2332f18-cdbf-11ec-8680-002248483d79}.TMContainer00000000000000000002.regtrans-ms,High
+2025-02-03 15:55:36,File System,File Created,Created: PrintHood,High
+2025-02-03 15:55:36,File System,File Created,Created: Templates,High
+2025-02-03 16:12:14,File System,File Modified,Modified: ntuser.ini,High
+2025-02-03 16:12:14,File System,File Created,Created: ntuser.ini,High
+2025-02-03 16:12:34,File System,File Modified,Modified: Contacts,High
+2025-02-03 16:12:35,File System,File Modified,Modified: Favorites,High
+2025-02-03 16:12:35,File System,File Modified,Modified: Links,High
+2025-02-03 16:12:35,File System,File Modified,Modified: Music,High
+2025-02-03 16:12:35,File System,File Modified,Modified: Saved Games,High
+2025-02-03 16:12:35,File System,File Modified,Modified: Searches,High
+2025-02-03 16:12:35,File System,File Modified,Modified: Videos,High
+2025-02-04 22:55:38,File System,File Modified,Modified: Cookies,High
+2025-02-19 12:34:13,File System,File Modified,Modified: .ms-ad,High
+2025-02-19 12:34:13,File System,File Created,Created: .ms-ad,High
+2025-02-19 13:55:40,File System,File Modified,Modified: SendTo,High
+2025-02-19 14:34:24,File System,File Modified,Modified: NTUSER.DAT{a2332f18-cdbf-11ec-8680-002248483d79}.TM.blf,High
+2025-02-19 14:34:24,File System,File Accessed,Accessed: NTUSER.DAT{a2332f18-cdbf-11ec-8680-002248483d79}.TM.blf,High
+2025-02-19 14:34:24,File System,File Modified,Modified: NTUSER.DAT{a2332f18-cdbf-11ec-8680-002248483d79}.TMContainer00000000000000000001.regtrans-ms,High
+2025-03-20 21:47:32,File System,File Created,Created: .android,High
+2025-03-20 21:47:33,File System,File Modified,Modified: .android,High
+2025-04-25 18:44:33,File System,File Created,Created: .VirtualBox,High
+2025-04-25 18:46:28,File System,File Created,Created: VirtualBox VMs,High
+2025-04-25 18:50:38,File System,File Modified,Modified: VirtualBox VMs,High
+2025-04-26 12:40:36,File System,File Modified,Modified: .openjfx,High
+2025-04-26 12:40:36,File System,File Created,Created: .openjfx,High
+2025-04-26 12:47:11,File System,File Modified,Modified: .icesoft,High
+2025-04-26 12:47:11,File System,File Created,Created: .icesoft,High
+2025-04-26 15:21:20,File System,File Accessed,Accessed: PrintHood,High
+2025-04-26 15:21:20,File System,File Accessed,Accessed: Templates,High
+2025-04-30 05:07:59,File System,File Modified,Modified: Pictures,High
+2025-07-03 19:29:28,File System,File Modified,Modified: .VirtualBox,High
+2025-07-13 18:28:54,File System,File Created,Created: .vscode,High
+2025-07-13 18:28:59,File System,File Modified,Modified: .vscode,High
+2025-07-13 18:36:06,File System,File Modified,Modified: .vscode-R,High
+2025-07-13 18:36:06,File System,File Created,Created: .vscode-R,High
+2025-10-28 22:03:59,File System,File Modified,Modified: .bash_history,High
+2025-10-28 22:03:59,File System,File Created,Created: .bash_history,High
+2025-10-28 22:04:16,File System,File Accessed,Accessed: .bash_history,High
+2026-01-29 15:49:58,File System,File Modified,Modified: Documents,High
+2026-01-29 15:49:58,File System,File Modified,Modified: My Documents,High
+2026-01-29 15:50:39,File System,File Accessed,Accessed: .android,High
+2026-01-29 15:50:39,File System,File Accessed,Accessed: .icesoft,High
+2026-01-29 15:50:39,File System,File Accessed,Accessed: .openjfx,High
+2026-01-29 15:50:39,File System,File Accessed,Accessed: .VirtualBox,High
+2026-01-29 15:50:39,File System,File Accessed,Accessed: .vscode-R,High
+2026-01-29 15:55:24,File System,File Accessed,Accessed: ntuser.ini,High
+2026-01-29 16:05:43,File System,File Accessed,Accessed: VirtualBox VMs,High
+2026-01-29 16:06:12,File System,File Accessed,Accessed: IntelGraphicsProfiles,High
+2026-01-29 16:06:12,File System,File Accessed,Accessed: Links,High
+2026-01-29 16:06:12,File System,File Accessed,Accessed: Music,High
+2026-01-29 16:06:12,File System,File Accessed,Accessed: Saved Games,High
+2026-01-29 16:06:14,File System,File Accessed,Accessed: 3D Objects,High
+2026-01-29 16:06:14,File System,File Accessed,Accessed: Contacts,High
+2026-01-29 16:07:16,File System,File Modified,Modified: Downloads,High
+2026-01-29 16:17:18,File System,File Modified,Modified: NTUSER.DAT,High
+2026-01-29 16:17:18,File System,File Accessed,Accessed: NTUSER.DAT,High
+2026-01-29 16:58:14,File System,File Accessed,Accessed: Cookies,High
+2026-01-30 09:14:10,File System,File Accessed,Accessed: Videos,High
+2026-01-31 10:46:43,File System,File Accessed,Accessed: Searches,High
+2026-01-31 10:46:44,File System,File Accessed,Accessed: Documents,High
+2026-01-31 10:46:44,File System,File Accessed,Accessed: Favorites,High
+2026-01-31 10:46:44,File System,File Accessed,Accessed: My Documents,High
+2026-01-31 10:46:48,File System,File Modified,Modified: OneDrive,High
+2026-01-31 11:04:53,File System,File Created,Created: AppData,High
+2026-01-31 11:05:02,File System,File Modified,Modified: AppData,High
+2026-01-31 11:05:02,File System,File Modified,Modified: Application Data,High
+2026-01-31 11:05:02,File System,File Accessed,Accessed: Application Data,High
+2026-01-31 11:05:02,File System,File Created,Created: Application Data,High
+2026-01-31 11:05:02,File System,File Modified,Modified: Local Settings,High
+2026-01-31 11:05:02,File System,File Accessed,Accessed: Local Settings,High
+2026-01-31 11:05:02,File System,File Created,Created: Local Settings,High
+2026-01-31 11:05:02,File System,File Modified,Modified: Start Menu,High
+2026-01-31 11:05:02,File System,File Accessed,Accessed: Start Menu,High
+2026-01-31 11:05:02,File System,File Created,Created: Start Menu,High
+2026-01-31 11:07:47,File System,File Accessed,Accessed: Pictures,High
+2026-01-31 11:07:57,File System,File Accessed,Accessed: SendTo,High
+2026-01-31 11:08:35,File System,File Modified,Modified: Desktop,High
+2026-01-31 11:09:18,File System,File Accessed,Accessed: .ms-ad,High
+2026-01-31 11:09:20,File System,File Accessed,Accessed: Downloads,High
+2026-01-31 11:09:41,File System,File Modified,Modified: Recent,High
+2026-01-31 11:09:48,File System,File Accessed,Accessed: .vscode,High
+2026-01-31 11:10:23,File System,File Accessed,Accessed: NTUSER.DAT{a2332f18-cdbf-11ec-8680-002248483d79}.TMContainer00000000000000000001.regtrans-ms,High
+2026-01-31 11:25:25,File System,File Accessed,Accessed: NetHood,High
+2026-01-31 11:25:25,File System,File Accessed,Accessed: OneDrive,High
+2026-01-31 11:27:00,File System,File Accessed,Accessed: Desktop,High
+2026-01-31 11:27:00,File System,File Accessed,Accessed: Recent,High
+2026-01-31 11:27:03,File System,File Accessed,Accessed: AppData,High
