@@ -17,10 +17,13 @@ def extract_date(value):
         return None
 
 
-def generate_activity_chart(correlated_timeline, output_dir="output"):
+def generate_activity_chart(correlated_timeline, output_dir):
     """
     Create a bar chart showing number of timeline activities per day.
     """
+
+    os.makedirs(output_dir, exist_ok=True)
+
     dates = []
 
     for event in correlated_timeline:
@@ -30,7 +33,7 @@ def generate_activity_chart(correlated_timeline, output_dir="output"):
                 dates.append(str(dt))
 
     if not dates:
-        print("No dates available for activity chart.")
+        print("[!] No dates available for activity chart.")
         return
 
     counter = Counter(dates)
@@ -40,27 +43,33 @@ def generate_activity_chart(correlated_timeline, output_dir="output"):
 
     plt.figure(figsize=(12, 6))
     plt.bar(sorted_dates, counts)
+
     plt.title("Timeline Activity by Date")
     plt.xlabel("Date")
     plt.ylabel("Number of Events")
+
     plt.xticks(rotation=45, ha="right")
     plt.tight_layout()
 
     chart_path = os.path.join(output_dir, "activity_chart.png")
+
     plt.savefig(chart_path)
     plt.close()
 
     print(f"[+] Activity chart saved to: {chart_path}")
 
 
-def generate_source_chart(correlated_timeline, output_dir="output"):
+def generate_source_chart(correlated_timeline, output_dir):
     """
     Create a bar chart showing number of events by source.
     """
+
+    os.makedirs(output_dir, exist_ok=True)
+
     sources = [event.get("source", "Unknown") for event in correlated_timeline]
 
     if not sources:
-        print("No sources available for source chart.")
+        print("[!] No sources available for source chart.")
         return
 
     counter = Counter(sources)
@@ -70,13 +79,16 @@ def generate_source_chart(correlated_timeline, output_dir="output"):
 
     plt.figure(figsize=(8, 5))
     plt.bar(labels, counts)
+
     plt.title("Timeline Events by Source")
     plt.xlabel("Source")
     plt.ylabel("Count")
+
     plt.xticks(rotation=20, ha="right")
     plt.tight_layout()
 
     chart_path = os.path.join(output_dir, "source_chart.png")
+
     plt.savefig(chart_path)
     plt.close()
 

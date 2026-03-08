@@ -1,13 +1,34 @@
-from core.collector import collect_filesystem_events
-
+import os
+from tqdm import tqdm
 
 def collect_mounted_events(drive_path):
-    """
-    Collect events from a mounted forensic image drive.
-    Example: I:\\
-    """
-    return collect_filesystem_events(
-        drive_path,
-        source_name="Mounted Evidence",
-        max_files=5000
-    )
+
+    events = []
+    file_list = []
+
+    print("[*] Scanning mounted drive...")
+
+    for root, dirs, files in os.walk(drive_path):
+        for name in files:
+            file_list.append(os.path.join(root, name))
+
+    for file_path in tqdm(file_list, desc="Processing Files", unit="file"):
+        try:
+            stat = os.stat(file_path)
+
+            event = {
+                "file_path": file_path,
+                "created": stat.st_ctime,
+                "modified": stat.st_mtime,
+                "accessed": stat.st_atime,
+                "source": "filesystem"
+            }
+
+            events.append(event)
+
+        except Exception:
+            continue
+
+    print(f"[+] Files processed: {len(events)}")
+
+    return events

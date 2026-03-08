@@ -1,131 +1,201 @@
-# Automated Digital Evidence Timeline Generation System
+# Automated Digital Evidence Timeline Generator
 
-## Project Overview
+A Python-based digital forensic tool designed to automatically generate chronological timelines from Windows-based systems. The system assists investigators by collecting file metadata, correlating events, detecting suspicious activity, and producing visual charts to support forensic investigations.
 
-This project presents the design and implementation of an **Automated Digital Evidence Timeline Generation System** for Windows-based digital forensic investigations.
-
-Digital forensic investigations often involve analysing large volumes of system data to reconstruct events and identify suspicious activity. Manually building system timelines can be time-consuming and complex. This system automates the process of collecting digital events, generating structured timelines, detecting suspicious behaviour, and producing visual reports.
-
-The tool assists investigators by simplifying evidence analysis and improving the efficiency of forensic investigations.
+This tool was developed as part of an MSc dissertation project in **Digital Forensics and Cyber Investigation** at **Teesside University**.
 
 ---
 
-# Features
+## Features
 
-✔ Automated timeline generation from Windows artefacts
-✔ Supports **live system analysis**
-✔ Supports **mounted forensic evidence drives (E01 images)**
-✔ Suspicious activity detection
-✔ Timeline export to **JSON and CSV formats**
-✔ Visual charts of system activity
-✔ Investigation summary report generation
-
----
-
-# Technologies Used
-
-* Python
-* pytsk3 (filesystem analysis)
-* matplotlib (visualization)
-* JSON / CSV for structured data
-* Digital forensic concepts (timeline analysis)
+- Live system analysis
+- Mounted evidence drive analysis
+- Automated timeline generation
+- Event correlation
+- Suspicious activity detection
+- Timeline visualisation charts
+- Structured outputs (CSV and JSON)
+- Case-based investigation folders
+- Command-line forensic investigation interface
 
 ---
 
-# Project Structure
+## System Workflow
 
-```
-timeline-generator
-│
-├── main.py
-├── requirements.txt
-├── README.md
-├── .gitignore
-│
-├── modules
-│   ├── timeline_parser.py
-│   ├── suspicious_detector.py
-│   └── report_generator.py
-│
-├── output
-│   ├── timeline.json
-│   ├── timeline.csv
-│   ├── suspicious_activity.json
-│   ├── investigation_summary.json
-│   ├── activity_chart.png
-│   └── source_chart.png
-│
-└── screenshots
-```
+1. Investigator launches the tool.
+2. Investigator enters **Investigator Name** and **Case ID**.
+3. Select investigation mode:
+   - Live system analysis
+   - Mounted evidence drive analysis
+4. If mounted mode is selected, provide the mounted evidence drive path.
+5. The system scans files and extracts metadata timestamps.
+6. Events are sorted into a chronological timeline.
+7. Correlated events are analysed for suspicious activity.
+8. The tool generates reports and visual charts.
 
 ---
 
-# Installation
+## Requirements
 
-Clone the repository:
+Python 3.9 or higher
 
-```
-git clone https://github.com/yourusername/timeline-generator.git
-```
-
-Install dependencies:
+Required Python libraries:
 
 ```
-pip install -r requirements.txt
+
+matplotlib
+tqdm
+
+```
+
+Install dependencies using:
+
+```
+
+pip install matplotlib tqdm
+
 ```
 
 ---
 
-# Usage
+## Running the Tool
 
 Run the main program:
 
 ```
+
 python main.py
+
 ```
 
-The system will allow the investigator to:
+Example program interface:
 
-1. Analyse a **live Windows system**
-2. Analyse a **mounted forensic drive**
+```
 
-After execution, the program generates structured forensic outputs including timelines and investigation summaries.
+=======================================================
+Automated Digital Evidence Timeline Generator
+Digital Forensics Investigation Tool
+====================================
 
----
+Investigator Name: Asad
+Case ID: CASE001
 
-# Output Files
+Select Analysis Mode
 
-The system generates the following files:
+1. Live PC Analysis
+2. Mounted Evidence Drive Analysis
 
-| File                       | Description                          |
-| -------------------------- | ------------------------------------ |
-| timeline.json              | Structured timeline of system events |
-| timeline.csv               | Timeline in spreadsheet format       |
-| suspicious_activity.json   | Detected suspicious behaviour        |
-| investigation_summary.json | Summary of forensic findings         |
-| activity_chart.png         | Visualization of system activity     |
-| source_chart.png           | Visualization of event sources       |
+```
 
----
+If mounted analysis is selected, enter the mounted drive path:
 
-# Educational Purpose
+```
 
-This project was developed as part of an **MSc Digital Forensics and Cyber Investigation** program.
+Enter mounted drive path (example I:)
 
-The objective is to demonstrate how automation can assist forensic investigators in analysing large volumes of digital evidence efficiently.
+```
 
 ---
 
-# Author
+## Output Files
 
-**Asad Rajput**
-MSc Digital Forensics and Cyber Investigation
+Results are automatically stored in a case folder:
+
+```
+
+cases/
+CASE001/
+
+```
+
+Generated files include:
+
+```
+
+timeline.csv
+timeline.json
+suspicious_activity.csv
+suspicious_activity.json
+investigation_summary.json
+activity_chart.png
+source_chart.png
+
+```
+
+### Output Description
+
+| File | Description |
+|-----|-------------|
+| timeline.csv | Chronological list of system events |
+| timeline.json | Structured timeline data |
+| suspicious_activity.csv | Detected suspicious events |
+| suspicious_activity.json | Structured suspicious activity data |
+| investigation_summary.json | Investigation overview |
+| activity_chart.png | Timeline activity distribution |
+| source_chart.png | Event source distribution |
+
+---
+
+## Forensic Workflow Example
+
+1. Acquire forensic image from target system.
+2. Mount the image using **FTK Image Mounter**.
+3. Run the timeline generator.
+4. Provide the mounted drive path.
+5. Review generated reports and visualisations.
+
+---
+
+## Repository Structure
+
+```
+
+project/
+│
+├── main.py
+├── modes/
+│   ├── live_mode.py
+│   └── mounted_mode.py
+│
+├── core/
+│   ├── timeline.py
+│   ├── correlator.py
+│   ├── suspicious_detector.py
+│   └── investigation_summary.py
+│
+├── visualization/
+│   └── timeline_visualizer.py
+│
+└── cases/
+
+```
+
+---
+
+## Academic Context
+
+This tool was developed as part of a postgraduate research project titled:
+
+**"An Automated Digital Evidence Timeline Generation System for Windows Based Forensic Investigations"**
+
+Supervisor:  
+Harry Stewart  
 Teesside University
 
 ---
 
-# License
+## Disclaimer
 
-This project is developed for **academic research purposes**.
+This tool is intended for educational and research purposes only. Investigators should ensure that forensic analysis is conducted in accordance with legal and ethical guidelines.
 
 ---
+
+## Author
+
+Muhammad Asad 
+MSc Digital Forensics and Cyber Investigation  
+Teesside University
+
+
+
+

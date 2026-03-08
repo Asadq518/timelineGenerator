@@ -18,7 +18,6 @@ def banner():
     print("=" * 55)
     print()
 
-
 def investigator_info():
     investigator = input("Investigator Name: ")
     case_id = input("Case ID: ")
@@ -31,16 +30,16 @@ def investigator_info():
 
     return investigator, case_id
 
-def save_output(timeline):
-    """
-    Save timeline to CSV and JSON.
-    """
+def create_case_folder(case_id: str) -> str:
+    base_dir = "cases"
+    case_dir = os.path.join(base_dir, case_id)
+    os.makedirs(case_dir, exist_ok=True)
+    return case_dir
+
+def save_output(timeline, output_dir):
     if not timeline:
         print("No timeline events found.")
         return
-
-    output_dir = "output"
-    os.makedirs(output_dir, exist_ok=True)
 
     csv_path = os.path.join(output_dir, "timeline.csv")
     json_path = os.path.join(output_dir, "timeline.json")
@@ -56,16 +55,10 @@ def save_output(timeline):
     print(f"[+] Timeline CSV saved to: {csv_path}")
     print(f"[+] Timeline JSON saved to: {json_path}")
 
-def save_suspicious_output(suspicious_items):
-    """
-    Save suspicious findings to CSV and JSON.
-    """
+def save_suspicious_output(suspicious_items, output_dir):
     if not suspicious_items:
         print("No suspicious items detected.")
         return
-
-    output_dir = "output"
-    os.makedirs(output_dir, exist_ok=True)
 
     csv_path = os.path.join(output_dir, "suspicious_activity.csv")
     json_path = os.path.join(output_dir, "suspicious_activity.json")
@@ -81,10 +74,7 @@ def save_suspicious_output(suspicious_items):
     print(f"[+] Suspicious activity CSV saved to: {csv_path}")
     print(f"[+] Suspicious activity JSON saved to: {json_path}")
 
-def save_summary(summary):
-    output_dir = "output"
-    os.makedirs(output_dir, exist_ok=True)
-
+def save_summary(summary, output_dir):
     summary_path = os.path.join(output_dir, "investigation_summary.json")
 
     with open(summary_path, "w", encoding="utf-8") as f:
@@ -93,10 +83,10 @@ def save_summary(summary):
     print(f"[+] Investigation summary saved to: {summary_path}")
 
 def main():
-
     banner()
 
     investigator, case_id = investigator_info()
+    output_dir = create_case_folder(case_id)
 
     print("Select Analysis Mode")
     print("1. Live PC Analysis")
@@ -123,8 +113,7 @@ def main():
     else:
         print("Invalid choice.")
         return
-
-
+    
     print(f"[*] Events collected: {len(events)}")
 
     timeline = generate_timeline(events)
@@ -133,19 +122,20 @@ def main():
     correlated_timeline = correlate_events(timeline)
     print(f"[*] Correlated events: {len(correlated_timeline)}")
 
-    save_output(correlated_timeline)
-    generate_activity_chart(correlated_timeline)
-    generate_source_chart(correlated_timeline)
+    save_output(correlated_timeline, output_dir)
+
+    generate_activity_chart(correlated_timeline, output_dir)
+    generate_source_chart(correlated_timeline, output_dir)
 
     suspicious_items = detect_suspicious_activity(correlated_timeline)
     print(f"[*] Suspicious items detected: {len(suspicious_items)}")
-    save_suspicious_output(suspicious_items)
+    save_suspicious_output(suspicious_items, output_dir)
 
     summary = summarise_timeline(correlated_timeline)
-    save_summary(summary)
+    save_summary(summary, output_dir)
 
+    print(f"[+] Case results saved in: {output_dir}")
     print("[+] Done.")
-
 
 if __name__ == "__main__":
     main()
