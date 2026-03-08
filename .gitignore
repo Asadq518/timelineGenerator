@@ -1,3 +1,46 @@
-core\__pycache__\*
-modes\__pycache__\*
-utils\__pycache__\*
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Python packaging
+*.egg-info/
+.eggs/
+
+# Compiled Python files
+*.pyd
+*.pyo
+
+# Temporary files
+*.tmp
+*.temp
+
+# Output files (optional)
+timeline.json
+timeline.csv
+suspicious_activity.json
+suspicious_activity.csv
+investigation_summary.json
+activity_chart.png
+source_chart.png
