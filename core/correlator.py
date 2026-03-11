@@ -1,6 +1,7 @@
 def correlate_events(events):
     """
-    Group file events by description target and merge timestamps into one record.
+    Group file events by source + item and merge timestamps into one record.
+    Also preserve event types for reporting/export.
     """
     grouped = {}
 
@@ -11,7 +12,6 @@ def correlate_events(events):
         timestamp = event.get("timestamp", "")
         event_type = event.get("event_type", "")
 
-        # Try to extract the file path/name after ': '
         if ": " in description:
             _, item_name = description.split(": ", 1)
         else:
@@ -26,8 +26,15 @@ def correlate_events(events):
                 "created": "",
                 "modified": "",
                 "accessed": "",
-                "confidence": confidence
+                "confidence": confidence,
+                "event_types": set(),
+                "event_count": 0
             }
+
+        grouped[key]["event_count"] += 1
+
+        if event_type:
+            grouped[key]["event_types"].add(event_type)
 
         if "Created" in event_type and not grouped[key]["created"]:
             grouped[key]["created"] = timestamp
@@ -45,6 +52,8 @@ def correlate_events(events):
             "created": value["created"],
             "modified": value["modified"],
             "accessed": value["accessed"],
+            "event_types": ", ".join(sorted(value["event_types"])),
+            "event_count": value["event_count"],
             "confidence": value["confidence"]
         })
 
