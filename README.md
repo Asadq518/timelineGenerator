@@ -281,9 +281,9 @@ The following screenshots demonstrate the output and functionality of the Automa
 
 A consolidated forensic report containing case details, source metadata, timeline summary, visualisations, and suspicious artefacts.
 
-```md
-![HTML Report](docs/html_report.png)
-```
+
+![HTML Report](/docs/html_report.png)
+
 
 ---
 
@@ -291,9 +291,7 @@ A consolidated forensic report containing case details, source metadata, timelin
 
 Visual representation of timeline events over time, highlighting periods of high activity and potential incident spikes.
 
-```md
 ![Daily Activity Timeline](docs/daily_activity_timeline.png)
-```
 
 ---
 
@@ -301,9 +299,7 @@ Visual representation of timeline events over time, highlighting periods of high
 
 Displays the highest-ranked suspicious artefacts based on heuristic scoring and investigation relevance.
 
-```md
 ![Suspicious Score Chart](docs/suspicious_score_chart.png)
-```
 
 ---
 
@@ -311,8 +307,6 @@ Displays the highest-ranked suspicious artefacts based on heuristic scoring and 
 
 Shows the distribution of file system events (Created, Modified, Accessed) within the generated timeline.
 
-```md
 ![Event Type Distribution](docs/event_type_distribution.png)
-```
 
 ---
