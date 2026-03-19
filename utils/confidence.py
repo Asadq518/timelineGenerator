@@ -1,14 +1,13 @@
 def assign_confidence(event):
-    """
-    Assign a confidence level based on event source.
-    """
     source = event.get("source", "").lower()
 
-    if "file system" in source:
-        return "High"
-    if "mounted evidence" in source:
-        return "High"
-    if "live system" in source:
-        return "Medium"
+    base = 0.5
 
-    return "Low"
+    if "mounted evidence" in source:
+        base += 0.3
+    elif "file system" in source:
+        base += 0.3
+    elif "live system" in source:
+        base += 0.2
+
+    return min(base, 1.0)

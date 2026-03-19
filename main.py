@@ -8,9 +8,16 @@ from modes.live_mode import collect_live_events
 from modes.mounted_mode import collect_mounted_events
 from core.timeline import generate_timeline
 from core.correlator import correlate_events
-from visualization.timeline_visualizer import generate_activity_chart, generate_source_chart
+from visualization.timeline_visualizer import (
+    generate_daily_activity_chart,
+    generate_suspicious_score_chart,
+    generate_event_type_chart,
+)
 from core.suspicious_detector import detect_suspicious_activity
 from core.investigation_summary import summarise_timeline
+from core.time_filter import parse_user_datetime, filter_events_by_datetime
+from core.source_metadata import get_live_source_metadata, get_mounted_source_metadata
+from reporting.html_report import generate_html_report
 
 def banner():
     print("""
@@ -132,11 +139,16 @@ def save_suspicious_output(suspicious_items, output_dir):
     print(f"[+] Suspicious activity CSV saved to: {csv_path}")
     print(f"[+] Suspicious activity JSON saved to: {json_path}")
 
-def save_summary(summary, output_dir):
+def save_summary(summary, source_metadata, output_dir):
+    final_summary = {
+        "source_information": source_metadata,
+        "timeline_summary": summary
+    }
+
     summary_path = os.path.join(output_dir, "investigation_summary.json")
 
     with open(summary_path, "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=4)
+        json.dump(final_summary, f, indent=4)
 
     print(f"[+] Investigation summary saved to: {summary_path}")
 
@@ -154,9 +166,12 @@ def main():
     choice = input("Select mode (1 or 2): ").strip()
 
     events = []
+    source_metadata = {}
 
     if choice == "1":
         print("[*] Running live system analysis...")
+        scan_start = datetime.now()
+        source_metadata = get_live_source_metadata()
         events = collect_live_events()
 
     elif choice == "2":
@@ -166,12 +181,19 @@ def main():
             drive_path += "\\"
 
         print(f"[*] Running mounted evidence analysis on {drive_path} ...")
+        scan_start = datetime.now()
+        source_metadata = get_mounted_source_metadata(drive_path)
         events = collect_mounted_events(drive_path)
 
     else:
         print("Invalid choice.")
         return
     
+    scan_end = datetime.now()
+    source_metadata["scan_start"] = str(scan_start)
+    source_metadata["scan_end"] = str(scan_end)
+    source_metadata["events_collected"] = len(events)
+
     print(f"[*] Events collected: {len(events)}")
 
     print("\nFilter by event type before export?")
@@ -198,7 +220,34 @@ def main():
         selected_types = ["File Created", "File Modified", "File Accessed"]
 
     filtered_events = filter_events_by_types(events, selected_types)
-    print(f"[*] Events after filtering: {len(filtered_events)}")
+    print(f"[*] Events after event-type filtering: {len(filtered_events)}")
+
+    print("\nApply date/time filter?")
+    print("Leave blank to skip a field.")
+    print("Accepted formats:")
+    print(" - YYYY-MM-DD")
+    print(" - YYYY-MM-DD HH:MM:SS")
+
+    start_input = input("Start date/time: ").strip()
+    end_input = input("End date/time: ").strip()
+
+    start_dt = parse_user_datetime(start_input) if start_input else None
+    end_dt = parse_user_datetime(end_input) if end_input else None
+
+    if start_input and not start_dt:
+        print("[!] Invalid start date/time format.")
+        return
+
+    if end_input and not end_dt:
+        print("[!] Invalid end date/time format.")
+        return
+    
+    if start_dt and end_dt and start_dt > end_dt:
+        print("[!] Start date/time cannot be later than end date/time.")
+        return
+
+    filtered_events = filter_events_by_datetime(filtered_events, start_dt, end_dt)
+    print(f"[*] Events after date/time filtering: {len(filtered_events)}")
 
     raw_timeline = generate_timeline(filtered_events)
     print(f"[*] Timeline events sorted: {len(raw_timeline)}")
@@ -208,15 +257,25 @@ def main():
 
     save_output(raw_timeline, correlated_timeline, output_dir)
 
-    generate_activity_chart(correlated_timeline, output_dir)
-    generate_source_chart(correlated_timeline, output_dir)
+    generate_daily_activity_chart(raw_timeline, output_dir)
+    generate_event_type_chart(raw_timeline, output_dir)
 
     suspicious_items = detect_suspicious_activity(correlated_timeline)
     print(f"[*] Suspicious items detected: {len(suspicious_items)}")
     save_suspicious_output(suspicious_items, output_dir)
+    generate_suspicious_score_chart(suspicious_items, output_dir)
 
     summary = summarise_timeline(correlated_timeline)
-    save_summary(summary, output_dir)
+    save_summary(summary, source_metadata, output_dir)
+
+    generate_html_report(
+        investigator=investigator,
+        case_id=case_id,
+        source_metadata=source_metadata,
+        summary=summary,
+        suspicious_items=suspicious_items,
+        output_dir=output_dir
+    )
 
 if __name__ == "__main__":
     main()

@@ -60,6 +60,7 @@ def collect_filesystem_events(path, source_name="File System", max_files=5000):
                     "description": f"{event_label}: {item_path}",
                 }
                 event["confidence"] = assign_confidence(event)
+                
                 events.append(event)
 
             file_count += 1

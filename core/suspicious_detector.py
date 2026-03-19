@@ -1,78 +1,190 @@
-from datetime import datetime
+import os
 
 
-KEYWORDS = [
-    "temp", "downloads", "desktop", "documents", "appdata",
-    "recent", "startup", "prefetch", "history", "cache",
-    "users", "programdata", "windows", "usb"
+IGNORE_PATH_KEYWORDS = [
+    ".vscode",
+    ".virtualbox",
+    "node_modules",
+    "appdata\\local\\programs",
+    "appdata\\roaming\\code",
+    "packages",
+    "cache",
+    "temp",
+    "__pycache__",
+    "matplotlib",
+]
+
+IGNORE_EXTENSIONS = [
+    ".log",
+    ".tmp",
+    ".cache",
 ]
 
 
-def parse_timestamp(ts):
-    if not ts:
-        return None
-    try:
-        return datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
-    except Exception:
-        return None
+def is_benign(item_path):
+    """
+    Return True if the file path appears to belong to a common benign
+    development, cache, or application folder/file type.
+    """
+    if not item_path:
+        return False
+
+    lower_path = item_path.lower()
+
+    for keyword in IGNORE_PATH_KEYWORDS:
+        if keyword in lower_path:
+            return True
+
+    _, ext = os.path.splitext(lower_path)
+    if ext in IGNORE_EXTENSIONS:
+        return True
+
+    return False
 
 
-def has_keyword(path_text):
-    path_lower = path_text.lower()
-    return any(keyword in path_lower for keyword in KEYWORDS)
+def normalise_event_types(event_types):
+    """
+    Ensure event_types is always a list.
+    Handles:
+    - list input
+    - comma-separated string input
+    - empty input
+    """
+    if not event_types:
+        return []
+
+    if isinstance(event_types, list):
+        return event_types
+
+    if isinstance(event_types, str):
+        return [e.strip() for e in event_types.split(",") if e.strip()]
+
+    return []
 
 
-def detect_suspicious_activity(correlated_timeline, recent_days=30):
+def detect_suspicious_activity(correlated_timeline):
+    """
+    Identify suspicious items from the correlated timeline.
+
+    Scoring logic is heuristic-based and designed to:
+    - reward items with multiple event types
+    - reward high event counts
+    - reward high confidence
+    - reward executable / script / archive style extensions
+    - reduce false positives by ignoring common benign paths and extensions
+    """
     suspicious_items = []
-    now = datetime.now()
 
-    for event in correlated_timeline:
-        item = event.get("item", "")
-        created = parse_timestamp(event.get("created", ""))
-        modified = parse_timestamp(event.get("modified", ""))
-        accessed = parse_timestamp(event.get("accessed", ""))
+    for item in correlated_timeline:
+        item_path = item.get("item", "")
 
+        if is_benign(item_path):
+            continue
+
+        if item_path.lower().endswith("ntuser.ini"):
+            continue
+
+        event_types = normalise_event_types(item.get("event_types", []))
+        event_count = item.get("event_count", 0)
+        confidence = item.get("confidence", 0)
+
+        try:
+            confidence = float(confidence)
+            
+        except (ValueError, TypeError):
+            confidence = 0.0
+
+        suspicion_score = 0
         reasons = []
-        score = 0
 
-        for label, ts in [("created", created), ("modified", modified), ("accessed", accessed)]:
-            if ts:
-                delta_days = (now - ts).days
-                if delta_days <= recent_days:
-                    reasons.append(f"Recent {label} activity")
-                    score += 2
-                    break
+        lower_path = item_path.lower()
+        _, ext = os.path.splitext(lower_path)
 
-        timestamp_count = sum(1 for ts in [created, modified, accessed] if ts is not None)
-        if timestamp_count >= 3:
-            reasons.append("Multiple timeline indicators present")
-            score += 2
+        # Multiple timestamp activity
+        if "File Created" in event_types and "File Modified" in event_types:
+            suspicion_score += 2
+            reasons.append("File was both created and modified")
 
-        if has_keyword(item):
-            reasons.append("Forensically relevant path")
-            score += 3
+        if "File Accessed" in event_types and "File Modified" in event_types:
+            suspicion_score += 2
+            reasons.append("File was both accessed and modified")
 
-        if created and modified and created != modified:
-            reasons.append("Post-creation modification detected")
-            score += 2
+        if len(event_types) >= 3:
+            suspicion_score += 2
+            reasons.append("File has multiple event types")
 
-        if modified and accessed and accessed > modified:
-            reasons.append("Access occurred after modification")
-            score += 1
+        # High activity volume
+        if event_count >= 3:
+            suspicion_score += 1
+            reasons.append("File has repeated timeline activity")
 
-        if score > 0:
+        if event_count >= 5:
+            suspicion_score += 2
+            reasons.append("File has high event frequency")
+
+        if event_count >= 10:
+            suspicion_score += 2
+            reasons.append("File has very high event frequency")
+
+        # Confidence weighting
+        if confidence >= 0.70:
+            suspicion_score += 1
+            reasons.append("High confidence timeline item")
+
+        if confidence >= 0.90:
+            suspicion_score += 1
+            reasons.append("Very high confidence timeline item")
+
+        # File type weighting
+        suspicious_extensions = {
+            ".exe", ".dll", ".bat", ".cmd", ".ps1", ".vbs", ".js",
+            ".jar", ".scr", ".zip", ".rar", ".7z", ".py"
+        }
+
+        if ext in suspicious_extensions:
+            suspicion_score += 2
+            reasons.append(f"Potentially interesting file type: {ext}")
+
+        # User/profile/Desktop/Downloads weighting
+        interesting_keywords = [
+            "downloads",
+            "desktop",
+            "documents",
+            "users\\",
+            "recent",
+            "startup",
+            "temp",
+        ]
+
+        for keyword in interesting_keywords:
+            if keyword in lower_path:
+                suspicion_score += 1
+                reasons.append(f"Located in potentially relevant path: {keyword}")
+                break
+
+        # Large registry/user artefact style files
+        if "ntuser.dat" in lower_path:
+            suspicion_score += 2
+            reasons.append("User registry hive detected")
+
+        # Keep only stronger items
+        if suspicion_score >= 4:
             suspicious_items.append({
-                "item": item,
-                "source": event.get("source", ""),
-                "created": event.get("created", ""),
-                "modified": event.get("modified", ""),
-                "accessed": event.get("accessed", ""),
-                "event_types": event.get("event_types", ""),
-                "event_count": event.get("event_count", 0),
-                "confidence": event.get("confidence", ""),
-                "suspicion_score": score,
+                "item": item.get("item", ""),
+                "source": item.get("source", ""),
+                "created": item.get("created", ""),
+                "modified": item.get("modified", ""),
+                "accessed": item.get("accessed", ""),
+                "event_types": event_types,
+                "event_count": event_count,
+                "confidence": confidence,
+                "suspicion_score": suspicion_score,
                 "reasons": "; ".join(reasons)
             })
 
-    suspicious_items.sort(key=lambda x: x["suspicion_score"], reverse=True)
+    suspicious_items.sort(
+        key=lambda x: x.get("suspicion_score", 0),
+        reverse=True
+    )
+
     return suspicious_items
